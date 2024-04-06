@@ -1,3 +1,9 @@
+//Feel free to add more libraries if needed
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <string.h>
+
 int main(int argc, char *argv[])
 {
   if (argc != 2) {
