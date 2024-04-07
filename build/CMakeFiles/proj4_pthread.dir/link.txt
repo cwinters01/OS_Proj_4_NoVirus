@@ -1,0 +1,2 @@
+C:/Users/cobyw/Documents/Compiliers/w64devkit/bin/ar.exe qc libproj4_pthread.a "CMakeFiles/proj4_pthread.dir/3way-pthread/proj4_pthread.c.obj"
+C:/Users/cobyw/Documents/Compiliers/w64devkit/bin/ranlib.exe libproj4_pthread.a
