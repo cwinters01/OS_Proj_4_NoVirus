@@ -29,19 +29,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 35,
+				"line" : 19,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 37,
+				"line" : 21,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 25,
+				"line" : 14,
 				"parent" : 0
 			}
 		]
@@ -60,16 +60,6 @@
 				{
 					"backtrace" : 3,
 					"path" : "C:/Users/cobyw/Documents/Proj4_CIS520/OS_Proj_4/include"
-				},
-				{
-					"backtrace" : 2,
-					"isSystem" : true,
-					"path" : "C:/Users/cobyw/Documents/Proj4_CIS520/OS_Proj_4/build/_deps/googletest-src/googletest/include"
-				},
-				{
-					"backtrace" : 2,
-					"isSystem" : true,
-					"path" : "C:/Users/cobyw/Documents/Proj4_CIS520/OS_Proj_4/build/_deps/googletest-src/googletest"
 				}
 			],
 			"language" : "C",
@@ -83,10 +73,6 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "proj4_pthread::@6890427a1f51a3e7e1df"
 		}
 	],
@@ -96,7 +82,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-std=c++11 -Wall -Wextra -Wshadow -Werror -g",
+				"fragment" : "-std=c11 -Wall -Wextra -Wshadow -Werror -g",
 				"role" : "flags"
 			},
 			{
@@ -105,7 +91,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "lib/libgtest.a",
+				"fragment" : "-lgtest",
 				"role" : "libraries"
 			},
 			{
@@ -123,7 +109,7 @@
 				"role" : "libraries"
 			}
 		],
-		"language" : "CXX"
+		"language" : "C"
 	},
 	"name" : "hw4_test",
 	"nameOnDisk" : "hw4_test.exe",
