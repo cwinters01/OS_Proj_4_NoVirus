@@ -37,10 +37,4 @@ CMakeFiles/proj4_pthread.dir/3way-pthread/proj4_pthread.c.obj: \
  C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/pthread_compat.h \
  C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/pthread_unistd.h \
  C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/string.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/sec_api/string_s.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/sys/stat.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/io.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/_mingw_stat64.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/fcntl.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/unistd.h \
- C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/getopt.h
+ C:/Users/cobyw/Documents/Compiliers/w64devkit/x86_64-w64-mingw32/include/sec_api/string_s.h

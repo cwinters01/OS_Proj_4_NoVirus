@@ -1,129 +1,166 @@
-//Feel free to add more libraries if needed
+/*#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <string.h>
+
+#define NUM_THREADS 10 // Define the number of pthreads
+
+typedef struct {
+    char *line;
+    int length;
+} LineData;
+
+int max_ascii_value(char *line, int nchars) {
+    int max = 0;
+    for (int i = 0; i < nchars; i++) {
+        if ((int)line[i] > max)
+            max = (int)line[i];
+    }
+    return max;
+}
+
+void *find_max_ascii(void *args) {
+    LineData *line_data = (LineData *)args;
+    int max = max_ascii_value(line_data->line, line_data->length);
+    printf("%s: %d\n", line_data->line, max);
+    free(line_data->line);
+    free(line_data);
+    pthread_exit(NULL);
+}
+
+int main() {
+    FILE *file = fopen("wiki_dump.txt", "r");
+    if (file == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    pthread_t threads[NUM_THREADS];
+
+    char *line_buffer = NULL;
+    size_t buffer_size = 0;
+
+    int thread_index = 0;
+    while (getline(&line_buffer, &buffer_size, file) != -1) {
+        LineData *line_data = (LineData *)malloc(sizeof(LineData));
+        if (line_data == NULL) {
+            perror("Memory allocation failed");
+            fclose(file);
+            return 1;
+        }
+
+        line_data->line = strdup(line_buffer);
+        if (line_data->line == NULL) {
+            perror("Memory allocation failed");
+            fclose(file);
+            free(line_data);
+            return 1;
+        }
+
+        line_data->length = strlen(line_data->line);
+
+        if (pthread_create(&threads[thread_index], NULL, find_max_ascii, (void *)line_data) != 0) {
+            perror("Failed to create thread");
+            fclose(file);
+            free(line_data->line);
+            free(line_data);
+            return 1;
+        }
+
+        thread_index = (thread_index + 1) % NUM_THREADS;
+    }
+
+    // Join all threads
+    for (int i = 0; i < NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    fclose(file);
+    if (line_buffer)
+        free(line_buffer);
+    return 0;
+}
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
-#include <sys/stat.h>
-#include <fcntl.h>    
-#include <unistd.h>
 
-// Will have to adjust
-#define CHUNK_SIZE 10000
+#define NUM_THREADS 10 // Define the number of pthreads
 
 typedef struct {
-  char **lines;
-  int start;
-  int end;
-}Targs;
-/*
-// Finds the maximum ASCII value in a line
-int max_ascii_value(char *line){
-  int max = 0;
+    char *line;
+    int length;
+    int line_number; // Added field for line number
+} LineData;
 
-  while (*line){
-    if(*line > max) max = *line;
-    line++;
-  }
-  return max;
-}*/
-
-// Finds the maximum ASCII value in a line
-int max_ascii_value(char *line, int nchars){
-  int max = 0;
-
-  for(int i = 0; i < nchars; i++){
-    if((int)line[i] > max)
-      max = (int)line[i];
-  }
-  return max;
-}
-
-// Finds the maximum ASCII in a chunk
-void *find_max_ascii(void *args){
-  Targs *targs = (Targs *)args;
-  
-  for (int i = targs->start; i < targs->end; i++){
-    int nchars = strlen(targs->lines[i]);
-    int max = max_ascii_value(targs->lines[i], nchars);
-    printf("%d: %d\n", i, max);
-  }
-  pthread_exit(NULL);
-  return NULL;
-}
-
-int main(){
-  /*
-  if (argc != 2) {
-        printf("Usage: %s <filename>\n", argv[0]);
-        return 1;
+int max_ascii_value(char *line, int nchars) {
+    int max = 0;
+    for (int i = 0; i < nchars; i++) {
+        if ((int)line[i] > max)
+            max = (int)line[i];
     }
-    
-    char *filename = argv[1];
-    FILE *file = fopen(filename, "r");
+    return max;
+}
+
+void *find_max_ascii(void *args) {
+    LineData *line_data = (LineData *)args;
+    int max = max_ascii_value(line_data->line, line_data->length);
+    printf("%d: %d\n", line_data->line_number, max); // Print line number and maximum ASCII value
+    free(line_data->line);
+    free(line_data);
+    pthread_exit(NULL);
+    return NULL;
+}
+
+int main() {
+    FILE *file = fopen("/homes/dan/625/wiki_dump.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
         return 1;
-    }*/
-
-  FILE *file;
-  // = fopen("C:/Users/cobyw/Documents/wiki_dump_test.txt", "r");
-  file = fopen("~dan/625/wiki_dump.txt", "r");
-  if(file == NULL){
-    perror("Error opening file");
-    return 1;
-  }
-
-  int nlines = 0, max_lines = 100;
-  char *line = (char*) malloc( 2001 ); // no lines larger 
-  pthread_t threads[CHUNK_SIZE];
-  Targs targs[CHUNK_SIZE];
-  
-
-  while(nlines < max_lines){
-    // Allocates memory for lines in a chunk
-    char **lines = (char **)malloc(CHUNK_SIZE * sizeof(char *));
-    if(lines == NULL){
-      perror("Memory allocation failed");
-      return 1;
     }
 
-    // Reads lines into the chunk
-    int line_count = 0;
-    while (line_count < CHUNK_SIZE && fgets(line, 2000, file) != NULL){
-      lines[line_count] = strdup(line); // Copies line into the array
-      if(lines[line_count] == NULL){
-        perror("Memory allocation failed");
-        return 1;
-      }
-      line_count++;
-      nlines++;
-    }
+    pthread_t threads[NUM_THREADS];
+
+    char *line_buffer = NULL;
+    size_t buffer_size = 0;
     
-    // Assigns arguments for the thread
-    targs[line_count].lines = lines;
-    targs[line_count].start = 0;
-    targs[line_count].end = line_count;
+    int line_number = 0; // Initialize line number
 
-    // Creates a thread to process the chunk
-    if(pthread_create(&threads[line_count], NULL, find_max_ascii, (void *)&targs[line_count]) != 0){
-      perror("Failed to create thread");
-      return 1;
+    while (getline(&line_buffer, &buffer_size, file) != -1) {
+        LineData *line_data = (LineData *)malloc(sizeof(LineData));
+        if (line_data == NULL) {
+            perror("Memory allocation failed");
+            fclose(file);
+            return 1;
+        }
+
+        line_data->line = strdup(line_buffer);
+        if (line_data->line == NULL) {
+            perror("Memory allocation failed");
+            fclose(file);
+            free(line_data);
+            return 1;
+        }
+
+        line_data->length = strlen(line_data->line);
+        line_data->line_number = line_number; // Assign line number to LineData
+
+        int thread_index = line_number % NUM_THREADS;
+        if (pthread_create(&threads[thread_index], NULL, find_max_ascii, (void *)line_data) != 0) {
+            perror("Failed to create thread");
+            fclose(file);
+            free(line_data->line);
+            free(line_data);
+            return 1;
+        }
+
+        pthread_join(threads[thread_index], NULL); // Join the thread immediately
+        line_number++;
     }
 
-    // Waits for the thread to finish
-    pthread_join(threads[line_count], NULL);
-
-    // Frees memory for lines
-    for(int i = 0; i < line_count; i++){
-      free(lines[i]);
-    }
-    free(lines);
-
-    // Breaks loop if end of file is reached
-    if(feof(file)) break;
-  }
-
-  fclose(file);
-  free(line);
-  return 0;
+    fclose(file);
+    if (line_buffer)
+        free(line_buffer);
+    return 0;
 }
