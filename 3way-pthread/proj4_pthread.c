@@ -3,9 +3,12 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <fcntl.h>    
+#include <unistd.h>
 
 // Will have to adjust
-#define CHUNK_SIZE 1000
+#define CHUNK_SIZE 10000
 
 typedef struct {
   char **lines;
@@ -62,18 +65,19 @@ int main(){
         return 1;
     }*/
 
-
-  int nlines = 0, max_lines = 100;
   FILE *file;
-  char *line = (char*) malloc( 2001 ); // no lines larger 
-  pthread_t threads[CHUNK_SIZE];
-  Targs targs[CHUNK_SIZE];
-
+  // = fopen("C:/Users/cobyw/Documents/wiki_dump_test.txt", "r");
   file = fopen("~dan/625/wiki_dump.txt", "r");
   if(file == NULL){
     perror("Error opening file");
     return 1;
   }
+
+  int nlines = 0, max_lines = 100;
+  char *line = (char*) malloc( 2001 ); // no lines larger 
+  pthread_t threads[CHUNK_SIZE];
+  Targs targs[CHUNK_SIZE];
+  
 
   while(nlines < max_lines){
     // Allocates memory for lines in a chunk
