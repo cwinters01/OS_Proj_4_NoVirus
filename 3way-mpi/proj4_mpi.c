@@ -49,7 +49,7 @@ int main() {
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank); //get rank of processes
     MPI_Comm_size(MPI_COMM_WORLD, &world_size); //get size of processes
 
-    if (size <= 1){
+    if (world_size <= 1){
         perror("Error: Must have more than 1 process.\n");
         MPI_Finalize();
         return 1;
@@ -101,7 +101,7 @@ int main() {
     }
 
     if (line_buffer) free(line_buffer);
-    if (rank == 0) fclose(file);
+    if (world_rank == 0) fclose(file);
 
     MPI_Finalize();
     return 0;
