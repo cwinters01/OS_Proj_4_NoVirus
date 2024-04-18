@@ -11,12 +11,9 @@
     */
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <string.h>
 #include <mpi.h>
     
-#define NUM_THREADS 10 // Define the number of pthreads
-
 typedef struct {
     char *line;
     int length;
