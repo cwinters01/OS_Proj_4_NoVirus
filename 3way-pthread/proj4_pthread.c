@@ -75,7 +75,6 @@ int main() {
     }
 
     fclose(file);
-    if (line_buffer)
-        free(line_buffer);
+    if (line_buffer) free(line_buffer);
     return 0;
 }
