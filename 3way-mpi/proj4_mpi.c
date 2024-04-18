@@ -45,12 +45,12 @@ int main() {
     MPI_Init(NULL, NULL); //initialize the MPI environment
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank); //get rank of processes
     MPI_Comm_size(MPI_COMM_WORLD, &world_size); //get size of processes
-
+/*
     if (world_size <= 1){
         perror("Error: Must have more than 1 process.\n");
         MPI_Finalize();
         return 1;
-    }
+    }*/
     
     FILE *file;
     if (world_rank == 0){
