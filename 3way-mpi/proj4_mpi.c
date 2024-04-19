@@ -1,14 +1,3 @@
-/*
-    int world_rank, world_size; //int for rank and number of processes
-    
-    MPI_Init(NULL, NULL); //initialize the MPI environment
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank); //get rank of processes
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size); //get size of processes
-    
-    printf("Hello from process %d of %d\n", world_rank, world_size);
-    
-    MPI_Finalize(); //finalize and close MPI environment
-    */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,23 +34,15 @@ int main() {
     MPI_Init(NULL, NULL); //initialize the MPI environment
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank); //get rank of processes
     MPI_Comm_size(MPI_COMM_WORLD, &world_size); //get size of processes
-/*
-    if (world_size <= 1){
-        perror("Error: Must have more than 1 process.\n");
-        MPI_Finalize();
-        return 1;
-    }*/
     
     FILE *file;
-    if (world_rank == 0){
-        file = fopen("/homes/dan/625/wiki_dump.txt", "r");
-        if (file == NULL) {
-            perror("Error opening file");
-            MPI_Finalize();
-                return 1;
-        }
+    file = fopen("/homes/dan/625/wiki_dump.txt", "r");
+    if (file == NULL) {
+        perror("Error opening file");
+        MPI_Finalize();
+            return 1;
     }
-
+    
     char *line_buffer = NULL;
     size_t buffer_size = 0;
     int line_number = 0; 
