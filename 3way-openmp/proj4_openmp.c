@@ -37,30 +37,37 @@ int main() {
     size_t buffer_size = 0;
     int line_number = 0; 
 
-    #pragma omp parallel
+    int num_threads = 4; // Change this to adjust the number of threads
+
+    #pragma omp parallel num_threads(num_threads)
     {
-        while (getline(&line_buffer, &buffer_size, file) != -1) {
-            LineData *line_data = (LineData *)malloc(sizeof(LineData));
-            if (line_data == NULL) {
-                perror("Memory allocation failed");
-                fclose(file);
-                return 1;
+        #pragma omp single
+        {
+            while (getline(&line_buffer, &buffer_size, file) != -1) {
+                LineData *line_data = (LineData *)malloc(sizeof(LineData));
+                if (line_data == NULL) {
+                    perror("Memory allocation failed");
+                    fclose(file);
+                    return 1;
+                }
+        
+                line_data->line = strdup(line_buffer);
+                if (line_data->line == NULL) {
+                    perror("Memory allocation failed");
+                    fclose(file);
+                    free(line_data);
+                    return 1;
+                }
+        
+                line_data->length = strlen(line_data->line);
+                line_data->line_number = line_number; 
+        
+                #pragma omp task
+                {
+                    find_max_ascii(line_data);
+                }
+                line_number++;
             }
-    
-            line_data->line = strdup(line_buffer);
-            if (line_data->line == NULL) {
-                perror("Memory allocation failed");
-                fclose(file);
-                free(line_data);
-                return 1;
-            }
-    
-            line_data->length = strlen(line_data->line);
-            line_data->line_number = line_number; 
-    
-            #pragma omp task
-            find_max_ascii(line_data);
-            line_number++;
         }
     }
 
