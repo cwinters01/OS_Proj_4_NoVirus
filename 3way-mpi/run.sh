@@ -1,2 +1,2 @@
 #!/bin/bash
-mpirun ./proj4_mpi
+./proj4_mpi $1 $2 $3 $4
